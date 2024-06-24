@@ -7,10 +7,12 @@ import html
 from datetime import datetime,timedelta
 from dotenv import load_dotenv
 import pytz
+import getpass
 
 load_dotenv()
 telegram_api_key = os.getenv('telegram_api_key')
 keyword = os.getenv('keyword')
+pcprofile = getpass.getuser()
 
 pastfile = []
 save = []
@@ -194,7 +196,7 @@ def main():
 
     with sync_playwright() as p:
         
-        browser = p.chromium.launch_persistent_context(user_data_dir=r'C:\\Users\\art\\AppData\\Local\\Google\\Chrome\\User Data', headless=False,channel='chrome')     
+        browser = p.chromium.launch_persistent_context(user_data_dir='C:\\Users\\'+pcprofile+'\\AppData\\Local\\Google\\Chrome\\User Data', headless=False,channel='chrome')     
         pages = browser.pages
         page = browser.new_page()
         if pages:
@@ -205,7 +207,9 @@ def main():
         page.goto(url)
         scroll_height = 500
         sc = 0
-        while stopper == 0 and sc < 100:
+        while True:
+            if sc > 100 or stopper == 1:
+                break
             # Scroll the page
             page.evaluate(f'window.scrollBy(0, {scroll_height})')
             print("Collecting data after scroll")
