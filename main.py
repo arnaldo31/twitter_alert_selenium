@@ -223,8 +223,16 @@ def main():
             if post_url not in tweets:
                 tweets.append(post_url)
                 temp.append(data)
+        
+        try:
+            past_tweet_str = json.dumps(pastfile)
+        except:
+            past_tweet_str = ''
                 
         for data_item in temp:
+            post_ID = data_item['post_id']
+            if post_ID in past_tweet_str:
+                continue
             call_tweet(page,data_item['post_url'])
             
         try:
@@ -301,8 +309,19 @@ def read_twitter_alert_file():
     
 
 if __name__ == '__main__':
-    try:os.mkdir('media')
-    except:pass
-    try:os.mkdir('save')
-    except:pass
-    main()
+    while True:
+        try:os.mkdir('media')
+        except:pass
+        try:os.mkdir('save')
+        except:pass
+        main()
+        pastfile = []
+        save = []
+        tweet_save = []
+        stopper = 0
+        ongoing_requests = set()
+        print('')
+        print('sleep 10 mins..')
+        print('')
+        time.sleep(600)
+        
