@@ -1,4 +1,4 @@
-# Twitter Alerts (Scraper and Repost)
+# Twitter Alerts (Scraper and Repost) to Telegram
 
 ## Overview
 
